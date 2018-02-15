@@ -22,7 +22,7 @@ namespace Netsh
       /// <returns></returns>
       public static List<Rule> GetFirewallRules()
       {
-        Win32Shell.ShellExec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all", out List<string> standardOutput, out List<string> standardError);
+        Win32Shell.Exec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all", out List<string> standardOutput, out List<string> standardError);
 
         if(standardError.Any())
           throw new Exception(string.Join(Environment.NewLine, standardError));

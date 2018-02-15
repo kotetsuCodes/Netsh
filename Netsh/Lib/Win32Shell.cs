@@ -7,7 +7,14 @@ namespace Netsh.Lib
 {
   public static class Win32Shell
   {
-    public static void ShellExec(string executable, string arguments, out List<string> standardOut, out List<string> standardError)
+    /// <summary>
+    /// Method for executing processes on Windows
+    /// </summary>
+    /// <param name="executable"></param>
+    /// <param name="arguments"></param>
+    /// <param name="standardOut"></param>
+    /// <param name="standardError"></param>
+    public static void Exec(string executable, string arguments, out List<string> standardOut, out List<string> standardError)
     {
       standardOut = new List<string>();
       standardError = new List<string>();
