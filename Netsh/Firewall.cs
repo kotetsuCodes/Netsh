@@ -22,10 +22,8 @@ namespace Netsh
       /// <returns></returns>
       public static List<Rule> GetFirewallRules()
       {
-        Win32Shell.Exec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all", out List<string> standardOutput, out List<string> standardError);
-
-        if(standardError.Any())
-          throw new Exception(string.Join(Environment.NewLine, standardError));
+        var shell = new Win32Shell();
+        var standardOutput = shell.Exec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all");
 
         return getRulesFromStandardOutput(standardOutput);
       }
@@ -46,56 +44,53 @@ namespace Netsh
         switch(line)
         {
           case var testLine when testLine.StartsWith("Rule Name:"):
+            currentRule = new Rule();
             currentRule.Name = formatRuleProperty(testLine);
             break;
 
           case var testLine when testLine.StartsWith("Enabled:"):
-            currentRule.Enabled = formatRuleProperty(testLine);
-            break;
+            currentRule.Enabled =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Direction:"):
-            currentRule.Direction = formatRuleProperty(testLine);
-            break;
+            currentRule.Direction =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Profiles:"):
-            currentRule.Profiles = formatRuleProperty(testLine);
-            break;
+            currentRule.Profiles =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Grouping:"):
-            currentRule.Grouping = formatRuleProperty(testLine);
-            break;
+            currentRule.Grouping =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("LocalIP:"):
-            currentRule.LocalIP = formatRuleProperty(testLine);
-            break;
+            currentRule.LocalIP =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("RemoteIP:"):
-            currentRule.RemoteIP = formatRuleProperty(testLine);
-            break;
+            currentRule.RemoteIP =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Protocol:"):
-            currentRule.Protocol = formatRuleProperty(testLine);
-            break;
+            currentRule.Protocol =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("LocalPort:"):
-            currentRule.LocalPort = formatRuleProperty(testLine);
-            break;
+            currentRule.LocalPort =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("RemotePort:"):
-            currentRule.RemotePort = formatRuleProperty(testLine);
-            break;
+            currentRule.RemotePort =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Edge traversal:"):
-            currentRule.EdgeTraversal = formatRuleProperty(testLine);
-            break;
+            currentRule.EdgeTraversal =
+formatRuleProperty(testLine); break;
 
           case var testLine when testLine.StartsWith("Action:"):
             currentRule.Action = formatRuleProperty(testLine);
-            rules.Add(new Rule()
-            {
-              Action = currentRule.Action
-            });
-            currentRule = new Rule();
+            rules.Add(currentRule);
             break;
         }
       }
