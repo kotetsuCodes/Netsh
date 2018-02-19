@@ -48,7 +48,7 @@ namespace Netsh.Lib
       }
     }
 
-    //https://stackoverflow.com/questions/14094771/problems-getting-desired-output-from-process-start
+    // adapted small portion from https://stackoverflow.com/questions/14094771/problems-getting-desired-output-from-process-start
     private void readOutput(object sender, DataReceivedEventArgs e)
     {
       if(e.Data != null)
