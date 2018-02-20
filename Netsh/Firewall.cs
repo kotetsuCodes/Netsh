@@ -11,6 +11,9 @@ namespace Netsh
   /// </summary>
   public static class Firewall
   {
+    static private Func<List<string>, string> standardErrorAction = (error) => { throw new InvalidOperationException($"Error occurred running firewall command: {error}"); };
+    static private Func<int, int> badExitCodeErrorAction = (exitCode) => { throw new InvalidOperationException($"Received error exit code from firewall command: {exitCode}"); };
+
     /// <summary>
     /// Organizational class housing static methods for managing Windows Firewall Rules
     /// </summary>
@@ -23,9 +26,21 @@ namespace Netsh
       public static List<Rule> GetFirewallRules()
       {
         var shell = new Win32Shell();
-        var standardOutput = shell.Exec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all");
+        Win32Shell.ShellResult shellResult = shell.Exec(Win32Paths.NetshExe, "advfirewall firewall show rule name=all");
 
-        return getRulesFromStandardOutput(standardOutput);
+        shell.CheckForStandardError(standardErrorAction);
+        shell.CheckForBadExitCode(badExitCodeErrorAction);
+
+        return getRulesFromStandardOutput(shellResult.StandardOutput);
+      }
+
+      public static void CreateFirewallRule(Rule rule)
+      {
+        var shell = new Win32Shell();
+        var shellResult = shell.Exec(Win32Paths.NetshExe, $"advfirewall firewall add rule name=\"{rule.Name}\" dir={rule.Direction} action={rule.Action} protocol={rule.Protocol} localport={rule.LocalPort}");
+
+        shell.CheckForStandardError(standardErrorAction);
+        shell.CheckForBadExitCode(badExitCodeErrorAction);
       }
     }
 
