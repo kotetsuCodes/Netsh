@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace NetshTests
 {
   [TestClass]
-  public class Firewall
+  public class FirewallTests
   {
     private string getGeneratedTestRuleName()
     {
