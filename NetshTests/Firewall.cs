@@ -25,7 +25,7 @@ namespace NetshTests
     {
       Netsh.Firewall.Rules.CreateFirewallRule(new Netsh.Firewall.Rule
       {
-        Name = $"{Guid.NewGuid().ToString()}_NetshTesting",
+        Name = getGeneratedTestRuleName(),
         Direction = "in",
         Action = "allow",
         Protocol = "TCP",
