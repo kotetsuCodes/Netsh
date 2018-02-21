@@ -23,28 +23,14 @@ namespace NetshTests
     [TestMethod]
     public void CreateFirewallRuleShouldSucceed()
     {
-      Netsh.Firewall.Rules.CreateFirewallRule(new Netsh.Firewall.Rule
-      {
-        Name = getGeneratedTestRuleName(),
-        Direction = "in",
-        Action = "allow",
-        Protocol = "TCP",
-        LocalPort = "7777"
-      });
+      Netsh.Firewall.Rules.CreateFirewallRule(getGeneratedTestRuleName(), "in", "allow", "TCP", "7777");
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
     public void CreateFirewallRuleShouldFail()
     {
-      Netsh.Firewall.Rules.CreateFirewallRule(new Netsh.Firewall.Rule
-      {
-        Name = getGeneratedTestRuleName(),
-        Direction = "this should fail",
-        Action = "this should fail",
-        Protocol = "this should fail",
-        LocalPort = "this should fail"
-      });
+      Netsh.Firewall.Rules.CreateFirewallRule(getGeneratedTestRuleName(), "this should fail", "this should fail", "this should fail", "this should fail");
     }
 
     [TestMethod]
@@ -52,14 +38,7 @@ namespace NetshTests
     {
       string firewallRuleName = getGeneratedTestRuleName();
 
-      Netsh.Firewall.Rules.CreateFirewallRule(new Netsh.Firewall.Rule
-      {
-        Name = firewallRuleName,
-        Direction = "in",
-        Action = "allow",
-        Protocol = "TCP",
-        LocalPort = "7777"
-      });
+      Netsh.Firewall.Rules.CreateFirewallRule(firewallRuleName, "in", "allow", "TCP", "7777");
 
       Netsh.Firewall.Rules.DeleteFirewallRule(firewallRuleName, "TCP", "7777");
     }
