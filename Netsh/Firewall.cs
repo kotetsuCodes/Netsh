@@ -42,6 +42,21 @@ namespace Netsh
         shell.CheckForStandardError(standardErrorAction);
         shell.CheckForBadExitCode(badExitCodeErrorAction);
       }
+
+      /// <summary>
+      /// Deletes firewall rule using netsh commands by matching Name, Protocol, and LocalPort parameters
+      /// </summary>
+      /// <param name="name">Name of the firewall rule to be matched for deletion</param>
+      /// <param name="protocol">Protocol of the firewall rule to be matched for deletion</param>
+      /// <param name="localPorts">LocalPorts of the firewall rule to be matched for deletion</param>
+      public static void DeleteFirewallRule(string name, string protocol, string localPorts)
+      {
+        var shell = new Win32Shell();
+        var shellResult = shell.Exec(Win32Paths.NetshExe, $"advfirewall firewall delete rule name={name} protocol={protocol} localport={localPorts}");
+
+        shell.CheckForStandardError(standardErrorAction);
+        shell.CheckForBadExitCode(badExitCodeErrorAction);
+      }
     }
 
     /// <summary>
