@@ -12,7 +12,7 @@ namespace Netsh
   public static class Firewall
   {
     static private Func<List<string>, string> standardErrorAction = (error) => { throw new InvalidOperationException($"Error occurred running firewall command: {error}"); };
-    static private Func<int, int> badExitCodeErrorAction = (exitCode) => { throw new InvalidOperationException($"Received error exit code from firewall command: {exitCode}"); };
+    static private Func<int, string, string, int> badExitCodeErrorAction = (exitCode, stdout, stderr) => { throw new InvalidOperationException($"Received error exit code from firewall command: {exitCode} {System.Environment.NewLine} stdout: {stdout} {System.Environment.NewLine} stderr: {stderr}"); };
 
     /// <summary>
     /// Organizational class housing static methods for managing Windows Firewall Rules
