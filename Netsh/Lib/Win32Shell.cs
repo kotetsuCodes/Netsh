@@ -25,10 +25,10 @@ namespace Netsh.Lib
         errorAction(this.StandardError);
     }
 
-    public void CheckForBadExitCode(Func<int, int> errorAction)
+    public void CheckForBadExitCode(Func<int, string, string, int> errorAction)
     {
       if(this.ExitCode != 0)
-        errorAction(this.ExitCode);
+        errorAction(this.ExitCode, string.Join(" ", this.StandardOutput), string.Join(" ", this.StandardError));
     }
 
     /// <summary>
