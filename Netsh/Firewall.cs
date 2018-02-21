@@ -34,10 +34,19 @@ namespace Netsh
         return getRulesFromStandardOutput(shellResult.StandardOutput);
       }
 
-      public static void CreateFirewallRule(Rule rule)
+      /// <summary>
+      /// Creates a firewall rule with the specified name, direction, action, protocol, and
+      /// localports parameters
+      /// </summary>
+      /// <param name="name">Name for the firewall rule</param>
+      /// <param name="direction">Direction the firewall rule will affect</param>
+      /// <param name="action">The action the firewall rule will take</param>
+      /// <param name="protocol">Protocol the firewall rule will affect</param>
+      /// <param name="localPorts">The ports on the local machine that the firewall rule will affect</param>
+      public static void CreateFirewallRule(string name, string direction, string action, string protocol, string localPorts)
       {
         var shell = new Win32Shell();
-        var shellResult = shell.Exec(Win32Paths.NetshExe, $"advfirewall firewall add rule name=\"{rule.Name}\" dir={rule.Direction} action={rule.Action} protocol={rule.Protocol} localport={rule.LocalPort}");
+        var shellResult = shell.Exec(Win32Paths.NetshExe, $"advfirewall firewall add rule name=\"{name}\" dir={direction} action={action} protocol={protocol} localport={localPorts}");
 
         shell.CheckForStandardError(standardErrorAction);
         shell.CheckForBadExitCode(badExitCodeErrorAction);
