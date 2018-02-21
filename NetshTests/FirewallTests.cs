@@ -46,5 +46,22 @@ namespace NetshTests
         LocalPort = "this should fail"
       });
     }
+
+    [TestMethod]
+    public void CreateAndDeleteFirewallRuleShouldSuccess()
+    {
+      string firewallRuleName = getGeneratedTestRuleName();
+
+      Netsh.Firewall.Rules.CreateFirewallRule(new Netsh.Firewall.Rule
+      {
+        Name = firewallRuleName,
+        Direction = "in",
+        Action = "allow",
+        Protocol = "TCP",
+        LocalPort = "7777"
+      });
+
+      Netsh.Firewall.Rules.DeleteFirewallRule(firewallRuleName, "TCP", "7777");
+    }
   }
 }
